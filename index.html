@@ -1,3 +1,4 @@
+𝚂𝚒𝚖𝚘𝚗 𝚁𝚒𝚕𝚎𝚢, [03.06.2025 2:46]
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -51,6 +52,16 @@
             color: #0088cc;
             font-weight: bold;
         }
+        .btn {
+            display: inline-block;
+            background: #0088cc;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+        }
         @keyframes pulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -78,30 +89,43 @@
         <p>
             Чтобы перейти в мой канал <span class="highlight">PS_traff</span>:<br><br>
             1. Нажмите <span class="highlight">•••</span> в правом верхнем углу<br>
-            2. Выберите <span class="highlight">"Открыть в браузере"</span><br>
-            3. Через 3 секунды вас перебросит автоматически
+            2. Выберите <span class="highlight">"Открыть в браузере"</span>
         </p>
+        
+        <!-- Кнопка с явной ссылкой -->
+        <a href="https://t.me/PS_traff" id="telegram-btn" class="btn">
+            Открыть канал PS_traff
+        </a>
     </div>
 
     <script>
-        // Автоматический редирект после открытия в браузере
+        // Конфигурация
         const channel = "PS_traff"; // Ваш канал (без @)
-        
-        function redirect() {
+        const isTikTok = navigator.userAgent.includes('TikTok');
+        const telegramAppLink = tg://resolve?domain=${channel};
+        const telegramWebLink = https://t.me/${channel};
+
+        // Функция редиректа
+        function redirectToTelegram() {
             // Пытаемся открыть в приложении
-            window.location.href = tg://resolve?domain=${channel};
+            window.location.href = telegramAppLink;
             
-            // Если не получилось - веб-версия
+            // Если не получилось - веб-версия через 500мс
             setTimeout(() => {
-                window.location.href = https://t.me/${channel};
+                window.location.href = telegramWebLink;
             }, 500);
         }
 
-        // Запускаем редирект через 3 секунды после загрузки
-        // (если это не TikTok)
-        if (!navigator.userAgent.includes('TikTok')) {
-            setTimeout(redirect, 3000);
+        // Для всех, кроме TikTok - авторедирект через 3 сек
+        if (!isTikTok) {
+            setTimeout(redirectToTelegram, 3000);
         }
+
+        // Обработчик кнопки
+        document.getElementById('telegram-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            redirectToTelegram();
+        });
     </script>
 </body>
 </html>
