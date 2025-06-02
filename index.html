@@ -28,41 +28,21 @@
             width: 80px;
             height: 80px;
             margin-bottom: 30px;
-            animation: pulse 2s infinite;
         }
         h1 {
             font-size: 22px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         .steps {
             text-align: left;
             margin: 25px auto;
             max-width: 300px;
+            font-size: 16px;
+            line-height: 1.6;
         }
-        .step {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        .step-number {
-            background: #0088cc;
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 10px;
-            flex-shrink: 0;
-        }
-        .arrow {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            animation: bounce 2s infinite;
+        .highlight {
+            color: #0088cc;
+            font-weight: bold;
         }
         .btn {
             display: inline-block;
@@ -72,22 +52,17 @@
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 30px;
             font-size: 18px;
-            animation: glow 2s infinite alternate;
+            border: none;
+            cursor: pointer;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        @keyframes glow {
-            from { box-shadow: 0 0 5px #0088cc; }
-            to { box-shadow: 0 0 20px #0088cc; }
+        .arrow {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
         }
     </style>
 </head>
@@ -106,54 +81,24 @@
         <h1>Как перейти в мой Telegram-канал</h1>
         
         <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div>Нажмите <strong>•••</strong> в правом верхнем углу</div>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <div>Выберите <strong>"Открыть в браузере"</strong></div>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <div>Нажмите кнопку <strong>"Открыть канал"</strong> ниже</div>
-            </div>
+            <p>1. Нажмите <span class="highlight">•••</span> в правом верхнем углу</p>
+            <p>2. Выберите <span class="highlight">«Открыть в браузере»</span></p>
+            <p>3. Нажмите <span class="highlight">«Открыть Telegram»</span> ниже</p>
         </div>
         
-        <!-- Кнопка с подсветкой -->
-        <a href="https://t.
-me/PS_traff" id="telegram-btn" class="btn">
-            Открыть канал PS_traff
-        </a>
+        <!-- Кнопка -->
+        <button id="telegram-btn" class="btn">Открыть Telegram</button>
     </div>
 
     <script>
-        // Конфигурация
-        const channel = "PS_traff"; // Ваш канал (без @)
-        const isTikTok = navigator.userAgent.includes('TikTok');
-        const telegramAppLink = `tg://resolve?domain=${channel}`;
-        const telegramWebLink = `https://t.me/${channel}`;
-
-        // Функция редиректа
-        function redirectToTelegram() {
+        document.getElementById('telegram-btn').addEventListener('click', function() {
             // Пытаемся открыть в приложении
-            window.location.href = telegramAppLink;
+            window.location.href = 'tg://resolve?domain=PS_traff';
             
             // Если не получилось - веб-версия через 500мс
-            setTimeout(() => {
-                window.location.href = telegramWebLink;
+            setTimeout(function() {
+                window.location.href = 'https://t.me/PS_traff';
             }, 500);
-        }
-
-        // Для всех, кроме TikTok - авторедирект через 5 сек
-        if (!isTikTok) {
-            setTimeout(redirectToTelegram, 3000);
-        }
-
-        // Обработчик кнопки
-        document.getElementById('telegram-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            redirectToTelegram();
         });
     </script>
 </body>
