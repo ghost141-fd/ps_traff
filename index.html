@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Переход в PS_traff | Telegram</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #0088cc, #00b0ff);
+            color: white;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            display: inline-block;
+            background: white;
+            color: #0088cc;
+            padding: 12px 24px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .countdown {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Логотип Telegram -->
+        <svg class="logo" viewBox="0 0 24 24" fill="white">
+            <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
+        </svg>
+
+        <h1>Добро пожаловать в PS_traff!</h1>
+        <p>Автоматический переход через: <span id="countdown">3</span> сек...</p>
+        
+        <a href="https://t.me/PS_traff" id="redirect-btn" class="btn">
+            Открыть сейчас
+        </a>
+    </div>
+
+    <script>
+        // Конфигурация
+        const channel = "PS_traff"; // Без @
+        const webUrl = `https://t.me/${channel}`;
+        const appUrl = `tg://resolve?domain=${channel}`;
+        let count = 3;
+
+        // Отсчет перед редиректом
+        const countdownEl = document.getElementById('countdown');
+        const timer = setInterval(() => {
+            count--;
+            countdownEl.textContent = count;
+            if (count <= 0) {
+                clearInterval(timer);
+                startRedirect();
+            }
+        }, 1000);
+
+        // Основной редирект
+        function startRedirect() {
+            // Всегда сначала показываем страницу 1-3 секунды
+            if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                // Для iOS только кнопка (авторедирект заблокирован)
+                document.getElementById('redirect-btn').style.display = 'inline-block';
+            } else if (/Android/i.test(navigator.userAgent)) {
+                // Для Android пробуем приложение -> браузер
+                window.location.href = appUrl;
+                setTimeout(() => {
+                    window.location.href = webUrl;
+                }, 800);
+            } else {
+                // Для ПК веб-версия
+                window.location.href = webUrl;
+            }
+        }
+
+        // Ручной редирект по кнопке
+        document.getElementById('redirect-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            window.location.href = /Android/i.test(navigator.userAgent) ? appUrl : webUrl;
+        });
+    </script>
+</body>
+</html>
