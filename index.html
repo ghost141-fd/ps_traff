@@ -34,10 +34,27 @@
             font-size: 22px;
             margin-bottom: 10px;
         }
-        p {
-            font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 30px;
+        .steps {
+            text-align: left;
+            margin: 25px auto;
+            max-width: 300px;
+        }
+        .step {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .step-number {
+            background: #0088cc;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            flex-shrink: 0;
         }
         .arrow {
             position: absolute;
@@ -47,19 +64,17 @@
             height: 60px;
             animation: bounce 2s infinite;
         }
-        .highlight {
-            color: #0088cc;
-            font-weight: bold;
-        }
         .btn {
             display: inline-block;
             background: #0088cc;
             color: white;
-            padding: 12px 24px;
+            padding: 15px 30px;
             border-radius: 50px;
             text-decoration: none;
             font-weight: bold;
             margin-top: 20px;
+            font-size: 18px;
+            animation: glow 2s infinite alternate;
         }
         @keyframes pulse {
             0% { transform: scale(1); }
@@ -69,6 +84,10 @@
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #0088cc; }
+            to { box-shadow: 0 0 20px #0088cc; }
         }
     </style>
 </head>
@@ -84,15 +103,26 @@
             <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/>
         </svg>
 
-        <h1>Переход в Telegram-канал</h1>
-        <p>
-            Чтобы перейти в мой канал <span class="highlight">PS_traff</span>:<br><br>
-            1. Нажмите <span class="highlight">•••</span> в правом верхнем углу<br>
-            2. Выберите <span class="highlight">"Открыть в браузере"</span>
-        </p>
+        <h1>Как перейти в мой Telegram-канал</h1>
         
-        <!-- Кнопка с явной ссылкой -->
-        <a href="https://t.me/PS_traff" id="telegram-btn" class="btn">
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div>Нажмите <strong>•••</strong> в правом верхнем углу</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div>Выберите <strong>"Открыть в браузере"</strong></div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div>Нажмите кнопку <strong>"Открыть канал"</strong> ниже</div>
+            </div>
+        </div>
+        
+        <!-- Кнопка с подсветкой -->
+        <a href="https://t.
+me/PS_traff" id="telegram-btn" class="btn">
             Открыть канал PS_traff
         </a>
     </div>
@@ -101,8 +131,8 @@
         // Конфигурация
         const channel = "PS_traff"; // Ваш канал (без @)
         const isTikTok = navigator.userAgent.includes('TikTok');
-        const telegramAppLink = tg://resolve?domain=${channel};
-        const telegramWebLink = https://t.me/${channel};
+        const telegramAppLink = `tg://resolve?domain=${channel}`;
+        const telegramWebLink = `https://t.me/${channel}`;
 
         // Функция редиректа
         function redirectToTelegram() {
@@ -115,7 +145,7 @@
             }, 500);
         }
 
-        // Для всех, кроме TikTok - авторедирект через 3 сек
+        // Для всех, кроме TikTok - авторедирект через 5 сек
         if (!isTikTok) {
             setTimeout(redirectToTelegram, 3000);
         }
